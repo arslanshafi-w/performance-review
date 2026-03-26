@@ -547,7 +547,6 @@
 
     // Build payload matching SharePoint column names
     const payload = {
-      __metadata: { type: `SP.Data.${LIST_NAME}ListItem` },
       Title: getVal("RevieweeName") + " — " + getVal("ReviewPeriod"),
       RevieweeName: getVal("RevieweeName"),
       ReviewerName: getVal("ReviewerName"),
