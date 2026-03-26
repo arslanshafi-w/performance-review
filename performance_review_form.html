@@ -488,11 +488,7 @@
 <div id="toast"></div>
 
 <script>
-  // ── CONFIGURE THESE TWO VALUES ──────────────────────────────────────────
-  const SHAREPOINT_SITE_URL = "https://netorg16753786.sharepoint.com/sites/wizient.com";
-  const LIST_NAME = "Performance%20Reviews";
-  // ────────────────────────────────────────────────────────────────────────
-
+  const FLOW_URL = "https://default4d645cf9c0c849f39376d39c5db5ed.33.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/c4231c46bcd54cc1ba70608908557586/triggers/manual/paths/invoke?api-version=1";
   const RATINGS = ["Unsatisfactory", "Needs Improvement", "Meets Expectations", "Exceeds Expectations", "Exceptional"];
   const selectedRatings = {};
 
@@ -581,24 +577,9 @@
     };
 
     try {
-      // Get Request Digest (SharePoint auth token)
-      const digestRes = await fetch(`${SHAREPOINT_SITE_URL}/_api/contextinfo`, {
+      const res = await fetch(FLOW_URL, {
         method: "POST",
-        headers: { "Accept": "application/json;odata=verbose" },
-        credentials: "include"
-      });
-      const digestData = await digestRes.json();
-      const digest = digestData.d.GetContextWebInformation.FormDigestValue;
-
-      // Submit to SharePoint List
-      const res = await fetch(`${SHAREPOINT_SITE_URL}/_api/web/lists/getbytitle('${LIST_NAME}')/items`, {
-        method: "POST",
-        headers: {
-          "Accept": "application/json;odata=verbose",
-          "Content-Type": "application/json;odata=verbose",
-          "X-RequestDigest": digest
-        },
-        credentials: "include",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       });
 
@@ -606,20 +587,19 @@
         showToast("Review submitted successfully!", "success");
         btn.textContent = "Submitted";
         btn.style.background = "#2D6A4F";
-        // Optionally reset form after 2s
         setTimeout(() => {
           if (confirm("Review submitted! Reset the form for the next review?")) location.reload();
         }, 1500);
       } else {
-        const err = await res.json();
-        console.error(err);
-        showToast("Submission failed. Check the console for details.", "error");
+        const errText = await res.text();
+        console.error("Flow error:", errText);
+        showToast("Submission failed. Please try again.", "error");
         btn.disabled = false;
         btn.textContent = "Submit review";
       }
     } catch (e) {
-      console.error(e);
-      showToast("Error connecting to SharePoint. Make sure you are logged in and the site URL is correct.", "error");
+      console.error("Fetch error:", e);
+      showToast("Error submitting. Please check your connection and try again.", "error");
       btn.disabled = false;
       btn.textContent = "Submit review";
     }
