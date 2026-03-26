@@ -358,26 +358,20 @@
     <div class="card-body">
       <div class="field">
         <label>They direct all their energy toward</label>
-        <input type="text" id="EnergyToward">
+        <textarea type="text" id="EnergyToward"></textarea>
       </div>
       <div class="field">
         <label>I can count on them for</label>
-        <input type="text" id="CountOnFor">
+        <textarea type="text" id="CountOnFor"></textarea>
       </div>
       <div class="divider"></div>
       <div class="field">
         <label>Their strengths include</label>
-        <div class="two-col">
-          <input type="text" id="Strength1" placeholder="Strength 1">
-          <input type="text" id="Strength2" placeholder="Strength 2">
-        </div>
+        <textarea type="text" id="Strength" placeholder="Strength"></textarea>
       </div>
       <div class="field">
         <label>They can improve in</label>
-        <div class="two-col">
-          <input type="text" id="Improve1" placeholder="Area 1">
-          <input type="text" id="Improve2" placeholder="Area 2">
-        </div>
+        <textarea type="text" id="Improve" placeholder="Areas of Improvement"></textarea>
       </div>
     </div>
   </div>
@@ -566,10 +560,8 @@
       ViewedAs: getVal("ViewedAs"),
       EnergyToward: getVal("EnergyToward"),
       CountOnFor: getVal("CountOnFor"),
-      Strength1: getVal("Strength1"),
-      Strength2: getVal("Strength2"),
-      Improve1: getVal("Improve1"),
-      Improve2: getVal("Improve2"),
+      Strength: getVal("Strength"),
+      Improve: getVal("Improve"),
       RemindsPerson: getVal("RemindsPerson"),
       RemindsReason: getVal("RemindsReason"),
       HandledWell: getVal("HandledWell"),
