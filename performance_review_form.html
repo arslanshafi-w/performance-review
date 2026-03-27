@@ -453,7 +453,7 @@
       	•	Shows ability to look at situations from multiple perspectives (technology, business needs)
       </p>
       <div class="rating-options" data-field="RatingJobKnowledge"></div>
-      <textarea class="rating-comment" id="CommentJobKnowledge" placeholder="Add a comment (optional)..."></textarea>
+      <textarea class="rating-comment" id="CommentJobKnowledge" placeholder="Add a comment ..."></textarea>
     </div>
 
     <div class="rating-category">
@@ -464,7 +464,7 @@
       	•	Identified and improved effectiveness of work methods and operations
       </p>
       <div class="rating-options" data-field="RatingQuality"></div>
-      <textarea class="rating-comment" id="CommentQuality" placeholder="Add a comment (optional)..."></textarea>
+      <textarea class="rating-comment" id="CommentQuality" placeholder="Add a comment ..."></textarea>
     </div>
   </div>
 
@@ -545,7 +545,6 @@
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner"></span>Submitting...';
 
-    // Build payload matching SharePoint column names
     const payload = {
       Title: getVal("RevieweeName") + " — " + getVal("ReviewPeriod"),
       RevieweeName: getVal("RevieweeName"),
