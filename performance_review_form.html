@@ -128,12 +128,48 @@
     padding: 9px 12px;
     width: 100%;
     outline: none;
-    transition: border-color 0.15s;
+    transition: border-color 0.15s, background 0.15s;
   }
 
   input[type="text"]:focus, textarea:focus, select:focus {
     border-color: var(--accent);
     background: #fff;
+  }
+
+  /* Validation error states */
+  input[type="text"].invalid,
+  textarea.invalid {
+    border-color: var(--error) !important;
+    background: #FFF8F8 !important;
+  }
+
+  .field-error {
+    font-size: 11px;
+    color: var(--error);
+    font-weight: 500;
+    display: none;
+    align-items: center;
+    gap: 4px;
+    margin-top: -2px;
+  }
+
+  .field-error.visible {
+    display: flex;
+  }
+
+  .field-error::before {
+    content: '!';
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 13px;
+    height: 13px;
+    background: var(--error);
+    color: #fff;
+    border-radius: 50%;
+    font-size: 9px;
+    font-weight: 700;
+    flex-shrink: 0;
   }
 
   textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
@@ -147,6 +183,12 @@
   /* Rating buttons */
   .rating-category { padding: 1rem 1.5rem; border-bottom: 1px solid var(--border); }
   .rating-category:last-child { border-bottom: none; }
+
+  .rating-category.invalid-rating .rating-options {
+    outline: 2px solid var(--error);
+    outline-offset: 4px;
+    border-radius: 6px;
+  }
 
   .rating-cat-label {
     font-size: 13px;
@@ -167,6 +209,7 @@
     gap: 6px;
     flex-wrap: wrap;
     margin-bottom: 10px;
+    transition: outline 0.15s;
   }
 
   .rating-opt {
@@ -215,47 +258,33 @@
   }
   .rating-comment:focus { border-color: var(--accent); background: #fff; }
   .rating-comment::placeholder { color: #BDB9B2; font-style: italic; }
-
-  /* Config section */
-  .config-card {
-    background: #FDF8F0;
-    border: 1px solid #E8D9BC;
-    border-radius: var(--radius);
-    padding: 1.25rem 1.5rem;
+  .rating-comment.invalid {
+    border-color: var(--error) !important;
+    background: #FFF8F8 !important;
   }
 
-  .config-card h3 {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--accent);
-    margin-bottom: 0.75rem;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .config-card h3::before {
-    content: '';
-    display: inline-block;
-    width: 8px; height: 8px;
-    background: var(--accent2);
-    border-radius: 50%;
-  }
-
-  .config-note {
-    font-size: 12px;
-    color: var(--text-muted);
-    line-height: 1.6;
-    margin-bottom: 0.75rem;
-  }
-
-  .config-note code {
-    background: var(--border);
-    padding: 1px 5px;
-    border-radius: 3px;
+  .rating-error {
     font-size: 11px;
-    color: var(--accent);
-    font-family: monospace;
+    color: var(--error);
+    font-weight: 500;
+    display: none;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 6px;
+  }
+  .rating-error.visible { display: flex; }
+  .rating-error::before {
+    content: '!';
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 13px; height: 13px;
+    background: var(--error);
+    color: #fff;
+    border-radius: 50%;
+    font-size: 9px;
+    font-weight: 700;
+    flex-shrink: 0;
   }
 
   /* Submit */
@@ -322,7 +351,6 @@
   <span class="org">Wizient</span>
 </div>
 
-<!-- ── SharePoint config ── -->
 <div class="form-wrap">
 
   <!-- Section 1 -->
@@ -333,20 +361,24 @@
         <div class="field">
           <label>Reviewee name <span class="required-star">*</span></label>
           <input type="text" id="RevieweeName" placeholder="Full name">
+          <span class="field-error" id="err-RevieweeName">This field is required</span>
         </div>
         <div class="field">
           <label>Reviewer name <span class="required-star">*</span></label>
           <input type="text" id="ReviewerName" placeholder="Full name">
+          <span class="field-error" id="err-ReviewerName">This field is required</span>
         </div>
       </div>
       <div class="two-col">
         <div class="field">
           <label>Role / title <span class="required-star">*</span></label>
           <input type="text" id="RoleTitle" placeholder="e.g. DevOps Engineer">
+          <span class="field-error" id="err-RoleTitle">This field is required</span>
         </div>
         <div class="field">
           <label>Review period <span class="required-star">*</span></label>
           <input type="text" id="ReviewPeriod" placeholder="e.g. Jan – Dec 2026">
+          <span class="field-error" id="err-ReviewPeriod">This field is required</span>
         </div>
       </div>
     </div>
@@ -357,21 +389,25 @@
     <div class="card-header"><span class="num">2</span><h2>Overall Observations</h2></div>
     <div class="card-body">
       <div class="field">
-        <label>They direct all their energy toward</label>
-        <textarea type="text" id="EnergyToward"></textarea>
+        <label>They direct all their energy toward <span class="required-star">*</span></label>
+        <textarea id="EnergyToward"></textarea>
+        <span class="field-error" id="err-EnergyToward">This field is required</span>
       </div>
       <div class="field">
-        <label>I can count on them for</label>
-        <textarea type="text" id="CountOnFor"></textarea>
+        <label>I can count on them for <span class="required-star">*</span></label>
+        <textarea id="CountOnFor"></textarea>
+        <span class="field-error" id="err-CountOnFor">This field is required</span>
       </div>
       <div class="divider"></div>
       <div class="field">
-        <label>Their strengths include</label>
-        <textarea type="text" id="Strength"></textarea>
+        <label>Their strengths include <span class="required-star">*</span></label>
+        <textarea id="Strength"></textarea>
+        <span class="field-error" id="err-Strength">This field is required</span>
       </div>
       <div class="field">
-        <label>They can improve in</label>
-        <textarea type="text" id="Improve"></textarea>
+        <label>They can improve in <span class="required-star">*</span></label>
+        <textarea id="Improve"></textarea>
+        <span class="field-error" id="err-Improve">This field is required</span>
       </div>
     </div>
   </div>
@@ -381,19 +417,22 @@
     <div class="card-header"><span class="num">3</span><h2>Examples</h2></div>
     <div class="card-body">
       <div class="field">
-        <label>Something they handled really well</label>
+        <label>Something they handled really well <span class="required-star">*</span></label>
         <span class="hint">A specific situation, achievement or initiative</span>
         <textarea id="HandledWell" placeholder="Describe a specific example..."></textarea>
+        <span class="field-error" id="err-HandledWell">This field is required</span>
       </div>
       <div class="field">
-        <label>A situation they struggled with</label>
+        <label>A situation they struggled with <span class="required-star">*</span></label>
         <span class="hint">A specific challenge or area of difficulty</span>
         <textarea id="Struggled" placeholder="Describe a specific example..."></textarea>
+        <span class="field-error" id="err-Struggled">This field is required</span>
       </div>
       <div class="field">
-        <label>Suggested goals for next year</label>
+        <label>Suggested goals for next year <span class="required-star">*</span></label>
         <span class="hint">e.g. attempt a certification, master a new technology</span>
         <textarea id="NextYearGoals" placeholder="Goals and development areas..."></textarea>
+        <span class="field-error" id="err-NextYearGoals">This field is required</span>
       </div>
     </div>
   </div>
@@ -402,69 +441,79 @@
   <div class="card">
     <div class="card-header"><span class="num">4</span><h2>Ratings <span style="font-weight:300;color:#7A7670;font-size:12px;margin-left:6px;">— select one per category</span></h2></div>
 
-    <div class="rating-category">
+    <div class="rating-category" id="rc-RatingWorkDelivery">
       <p class="rating-cat-label">Work delivery <span class="required-star">*</span></p>
       <p class="rating-cat-hint">
-          •	Productive and efficient in finishing work on time<br>
-	      •	Team's work/release wasn't held up because of the dependency on their work<br>
-	      •	Raises flags in a timely manner when there are issues<br>
-	      •	Shows responsibility and prioritizes work according to project requirements<br>
-	      •	Accurately scopes work and follows through on commitments<br>
-	      •	Exhibits ability to root cause and take effective actions to prevent future failures<br>
-	      •	Able to work without supervision
+        • Productive and efficient in finishing work on time<br>
+        • Team's work/release wasn't held up because of the dependency on their work<br>
+        • Raises flags in a timely manner when there are issues<br>
+        • Shows responsibility and prioritizes work according to project requirements<br>
+        • Accurately scopes work and follows through on commitments<br>
+        • Exhibits ability to root cause and take effective actions to prevent future failures<br>
+        • Able to work without supervision
       </p>
+      <span class="rating-error" id="err-RatingWorkDelivery">Please select a rating</span>
       <div class="rating-options" data-field="RatingWorkDelivery"></div>
-      <textarea class="rating-comment" id="CommentWorkDelivery" placeholder="Add a comment ..."></textarea>
+      <textarea class="rating-comment" id="CommentWorkDelivery" placeholder="Add a comment (required) ..."></textarea>
+      <span class="field-error" id="err-CommentWorkDelivery" style="margin-top:5px;">A comment is required</span>
     </div>
 
-    <div class="rating-category">
+    <div class="rating-category" id="rc-RatingAvailability">
       <p class="rating-cat-label">Availability <span class="required-star">*</span></p>
       <p class="rating-cat-hint">
-        	•	Punctual in showing up for work and all meetings (on-prem and remote)<br>
-	        •	Mostly available when the team needs them<br>
-	        •	Sends timely responses to emails and other communication channels<br>
-	        •	Has a predictable daily routine with early warning for absence<br>
-	        •	Gives reasonable insight into leaves and longer breaks<br>
-	        •	In special circumstance when the team collectively decides to work outside of regular work hours, is flexible enough to be available
+        • Punctual in showing up for work and all meetings (on-prem and remote)<br>
+        • Mostly available when the team needs them<br>
+        • Sends timely responses to emails and other communication channels<br>
+        • Has a predictable daily routine with early warning for absence<br>
+        • Gives reasonable insight into leaves and longer breaks<br>
+        • In special circumstance when the team collectively decides to work outside of regular work hours, is flexible enough to be available
       </p>
+      <span class="rating-error" id="err-RatingAvailability">Please select a rating</span>
       <div class="rating-options" data-field="RatingAvailability"></div>
-      <textarea class="rating-comment" id="CommentAvailability" placeholder="Add a comment ..."></textarea>
+      <textarea class="rating-comment" id="CommentAvailability" placeholder="Add a comment (required) ..."></textarea>
+      <span class="field-error" id="err-CommentAvailability" style="margin-top:5px;">A comment is required</span>
     </div>
 
-    <div class="rating-category">
+    <div class="rating-category" id="rc-RatingComms">
       <p class="rating-cat-label">Communication <span class="required-star">*</span></p>
       <p class="rating-cat-hint">
-      	•	Listens respectfully and intently to gain full understanding of issues<br>
-      	•	Comprehends written material<br>
-        •	Presents information in a clear and concise manner orally and in writing to ensure others understand their ideas<br>
-      	•	Makes sure that everyone is aware of their progress<br>
-      	•	Appropriately adapts the content, tone and styles of their message to accommodate a variety of audiences<br>
-        •	Participates in team meetings and asks relevant questions.
+        • Listens respectfully and intently to gain full understanding of issues<br>
+        • Comprehends written material<br>
+        • Presents information in a clear and concise manner orally and in writing to ensure others understand their ideas<br>
+        • Makes sure that everyone is aware of their progress<br>
+        • Appropriately adapts the content, tone and styles of their message to accommodate a variety of audiences<br>
+        • Participates in team meetings and asks relevant questions.
       </p>
+      <span class="rating-error" id="err-RatingComms">Please select a rating</span>
       <div class="rating-options" data-field="RatingComms"></div>
-      <textarea class="rating-comment" id="CommentComms" placeholder="Add a comment ..."></textarea>
+      <textarea class="rating-comment" id="CommentComms" placeholder="Add a comment (required) ..."></textarea>
+      <span class="field-error" id="err-CommentComms" style="margin-top:5px;">A comment is required</span>
     </div>
 
-    <div class="rating-category">
+    <div class="rating-category" id="rc-RatingJobKnowledge">
       <p class="rating-cat-label">Job knowledge <span class="required-star">*</span></p>
       <p class="rating-cat-hint">
-        •	Exhibits adequate knowledge of the tools/technologies to complete work<br>
-      	•	Effectively applies problem-solving and analytical skills to address challenges and make informed decisions.<br>
-      	•	Shows ability to look at situations from multiple perspectives (technology, business needs)
+        • Exhibits adequate knowledge of the tools/technologies to complete work<br>
+        • Effectively applies problem-solving and analytical skills to address challenges and make informed decisions.<br>
+        • Shows ability to look at situations from multiple perspectives (technology, business needs)
       </p>
+      <span class="rating-error" id="err-RatingJobKnowledge">Please select a rating</span>
       <div class="rating-options" data-field="RatingJobKnowledge"></div>
-      <textarea class="rating-comment" id="CommentJobKnowledge" placeholder="Add a comment ..."></textarea>
+      <textarea class="rating-comment" id="CommentJobKnowledge" placeholder="Add a comment (required) ..."></textarea>
+      <span class="field-error" id="err-CommentJobKnowledge" style="margin-top:5px;">A comment is required</span>
     </div>
 
-    <div class="rating-category">
+    <div class="rating-category" id="rc-RatingQuality">
       <p class="rating-cat-label">Quality of work <span class="required-star">*</span></p>
       <p class="rating-cat-hint">
-        •	Work is mostly error free<br>
-      	•	Code is well documented and easily manageable<br>
-      	•	Identified and improved effectiveness of work methods and operations
+        • Work is mostly error free<br>
+        • Code is well documented and easily manageable<br>
+        • Identified and improved effectiveness of work methods and operations
       </p>
+      <span class="rating-error" id="err-RatingQuality">Please select a rating</span>
       <div class="rating-options" data-field="RatingQuality"></div>
-      <textarea class="rating-comment" id="CommentQuality" placeholder="Add a comment ..."></textarea>
+      <textarea class="rating-comment" id="CommentQuality" placeholder="Add a comment (required) ..."></textarea>
+      <span class="field-error" id="err-CommentQuality" style="margin-top:5px;">A comment is required</span>
     </div>
   </div>
 
@@ -473,8 +522,9 @@
     <div class="card-header"><span class="num">5</span><h2>Additional comments</h2></div>
     <div class="card-body">
       <div class="field">
-        <label>Any other feedback</label>
+        <label>Any other feedback <span class="required-star">*</span></label>
         <textarea id="AdditionalComments" style="min-height:96px;" placeholder="Anything not covered above..."></textarea>
+        <span class="field-error" id="err-AdditionalComments">This field is required</span>
       </div>
     </div>
   </div>
@@ -504,8 +554,32 @@
         group.querySelectorAll(".rating-opt").forEach(b => b.classList.remove("sel"));
         btn.classList.add("sel");
         selectedRatings[field] = level;
+        // Clear rating error on select
+        clearError("Rating" + field.replace("Rating",""));
+        clearError(field);
+        const rc = document.getElementById("rc-" + field);
+        if (rc) rc.classList.remove("invalid-rating");
       };
       group.appendChild(btn);
+    });
+  });
+
+  // Clear error helpers
+  function clearError(id) {
+    const errEl = document.getElementById("err-" + id);
+    if (errEl) errEl.classList.remove("visible");
+    const inputEl = document.getElementById(id);
+    if (inputEl) inputEl.classList.remove("invalid");
+  }
+
+  // Live clear on input
+  document.querySelectorAll("input[type='text'], textarea").forEach(el => {
+    el.addEventListener("input", () => {
+      if (el.value.trim()) {
+        el.classList.remove("invalid");
+        const errEl = document.getElementById("err-" + el.id);
+        if (errEl) errEl.classList.remove("visible");
+      }
     });
   });
 
@@ -514,7 +588,7 @@
     t.textContent = msg;
     t.className = type;
     t.style.display = "block";
-    setTimeout(() => { t.style.display = "none"; }, 4000);
+    setTimeout(() => { t.style.display = "none"; }, 4500);
   }
 
   function getVal(id) {
@@ -522,23 +596,83 @@
     return el ? el.value.trim() : "";
   }
 
-  async function submitForm() {
-    // Validate required fields
-    const required = ["RevieweeName", "ReviewerName", "RoleTitle", "ReviewPeriod"];
-    for (const id of required) {
+  function markInvalid(id) {
+    const el = document.getElementById(id);
+    if (el) el.classList.add("invalid");
+    const errEl = document.getElementById("err-" + id);
+    if (errEl) errEl.classList.add("visible");
+  }
+
+  function validateForm() {
+    let valid = true;
+    let firstInvalidEl = null;
+
+    // Text/textarea fields
+    const requiredFields = [
+      "RevieweeName", "ReviewerName", "RoleTitle", "ReviewPeriod",
+      "EnergyToward", "CountOnFor", "Strength", "Improve",
+      "HandledWell", "Struggled", "NextYearGoals",
+      "AdditionalComments"
+    ];
+
+    for (const id of requiredFields) {
       if (!getVal(id)) {
-        showToast("Please fill in all required fields (marked with *)", "error");
-        document.getElementById(id).focus();
-        return;
+        markInvalid(id);
+        valid = false;
+        if (!firstInvalidEl) firstInvalidEl = document.getElementById(id);
       }
     }
 
-    const ratingFields = ["RatingWorkDelivery","RatingAvailability","RatingComms","RatingJobKnowledge","RatingQuality"];
-    for (const f of ratingFields) {
-      if (!selectedRatings[f]) {
-        showToast("Please select a rating for all 5 categories", "error");
-        return;
+    // Rating selections + comments
+    const ratingFields = [
+      "RatingWorkDelivery",
+      "RatingAvailability",
+      "RatingComms",
+      "RatingJobKnowledge",
+      "RatingQuality"
+    ];
+
+    const commentMap = {
+      "RatingWorkDelivery":  "CommentWorkDelivery",
+      "RatingAvailability":  "CommentAvailability",
+      "RatingComms":         "CommentComms",
+      "RatingJobKnowledge":  "CommentJobKnowledge",
+      "RatingQuality":       "CommentQuality"
+    };
+
+    for (const field of ratingFields) {
+      const rc = document.getElementById("rc-" + field);
+
+      // Rating button not selected
+      if (!selectedRatings[field]) {
+        const errEl = document.getElementById("err-" + field);
+        if (errEl) errEl.classList.add("visible");
+        if (rc) rc.classList.add("invalid-rating");
+        valid = false;
+        if (!firstInvalidEl && rc) firstInvalidEl = rc;
       }
+
+      // Comment textarea empty
+      const commentId = commentMap[field];
+      if (!getVal(commentId)) {
+        markInvalid(commentId);
+        valid = false;
+        if (!firstInvalidEl) firstInvalidEl = document.getElementById(commentId);
+      }
+    }
+
+    return { valid, firstInvalidEl };
+  }
+
+  async function submitForm() {
+    const { valid, firstInvalidEl } = validateForm();
+
+    if (!valid) {
+      showToast("Please complete all required fields before submitting.", "error");
+      if (firstInvalidEl) {
+        firstInvalidEl.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+      return;
     }
 
     const btn = document.getElementById("submitBtn");
@@ -551,13 +685,10 @@
       ReviewerName: getVal("ReviewerName"),
       RoleTitle: getVal("RoleTitle"),
       ReviewPeriod: getVal("ReviewPeriod"),
-      ViewedAs: getVal("ViewedAs"),
       EnergyToward: getVal("EnergyToward"),
       CountOnFor: getVal("CountOnFor"),
       Strength: getVal("Strength"),
       Improve: getVal("Improve"),
-      RemindsPerson: getVal("RemindsPerson"),
-      RemindsReason: getVal("RemindsReason"),
       HandledWell: getVal("HandledWell"),
       Struggled: getVal("Struggled"),
       NextYearGoals: getVal("NextYearGoals"),
