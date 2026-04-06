@@ -357,7 +357,7 @@
   <div class="card">
     <div class="card-header"><span class="num">1</span><h2>Employee details</h2></div>
     <div class="card-body">
-      <div class="two-col">
+      <div class="one-col">
         <div class="field">
           <label>Your name <span class="required-star">*</span></label>
           <input type="text" id="RevieweeName" placeholder="Full name">
@@ -401,22 +401,16 @@
         <span class="field-error" id="err-ContribProjects">This field is required</span>
       </div>
       <div class="field">
-        <label>Contributions towards Asset / Offering <span class="required-star">*</span></label>
-        <span class="hint">How you contributed to building or improving assets, products or offerings</span>
-        <textarea id="ContribAsset" placeholder="Describe your contributions to assets or offerings..."></textarea>
-        <span class="field-error" id="err-ContribAsset">This field is required</span>
-      </div>
-      <div class="field">
         <label>Contributions towards Other People's Development <span class="required-star">*</span></label>
         <span class="hint">Mentoring, knowledge sharing, coaching, or supporting colleagues</span>
-        <textarea id="ContribPeopleDev" placeholder="Describe how you supported others' growth..."></textarea>
-        <span class="field-error" id="err-ContribPeopleDev">This field is required</span>
+        <textarea id="ContribPeople" placeholder="Describe how you supported others' growth..."></textarea>
+        <span class="field-error" id="err-ContribPeople">This field is required</span>
       </div>
       <div class="field">
         <label>Contributions towards Personal Development <span class="required-star">*</span></label>
         <span class="hint">Skills, certifications, learnings or growth you pursued for yourself</span>
-        <textarea id="ContribPersonalDev" placeholder="Describe your personal development efforts..."></textarea>
-        <span class="field-error" id="err-ContribPersonalDev">This field is required</span>
+        <textarea id="ContribPersonal" placeholder="Describe your personal development efforts..."></textarea>
+        <span class="field-error" id="err-ContribPersonal">This field is required</span>
       </div>
       <div class="divider"></div>
       <div class="field">
@@ -614,7 +608,7 @@
     const requiredFields = [
       "RevieweeName", "RoleTitle", "ReviewPeriod",
       "Strength", "Improve",
-      "ContribProjects", "ContribAsset", "ContribPeopleDev", "ContribPersonalDev",
+      "ContribProjects", "ContribPeople", "ContribPersonal",
       "HandledWell", "Struggled", "NextYearGoals",
       "AdditionalComments"
     ];
@@ -685,16 +679,14 @@
 
     const payload = {
       Title: getVal("RevieweeName") + " — " + getVal("ReviewPeriod"),
-      RevieweeName: getVal("RevieweeName"),
       ReviewerName: getVal("RevieweeName"),
       RoleTitle: getVal("RoleTitle"),
       ReviewPeriod: getVal("ReviewPeriod"),
       Strength: getVal("Strength"),
       Improve: getVal("Improve"),
       ContribProjects: getVal("ContribProjects"),
-      ContribAsset: getVal("ContribAsset"),
-      ContribPeopleDev: getVal("ContribPeopleDev"),
-      ContribPersonalDev: getVal("ContribPersonalDev"),
+      ContribPeople: getVal("ContribPeople"),
+      ContribPersonal: getVal("ContribPersonal"),
       HandledWell: getVal("HandledWell"),
       Struggled: getVal("Struggled"),
       NextYearGoals: getVal("NextYearGoals"),
