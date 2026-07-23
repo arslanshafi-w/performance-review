@@ -784,13 +784,13 @@
         console.error("Flow error:", errText);
         showToast("Submission failed. Please try again.", "error");
         btn.disabled = false;
-        btn.textContent = "Submit self evaluation";
+        btn.textContent = "Submit";
       }
     } catch (e) {
       console.error("Fetch error:", e);
       showToast("Error submitting. Please check your connection and try again.", "error");
       btn.disabled = false;
-      btn.textContent = "Submit self evaluation";
+      btn.textContent = "Submit";
     }
   }
 </script>
