@@ -138,10 +138,25 @@
 
   /* Validation error states */
   input[type="text"].invalid,
-  textarea.invalid {
+  textarea.invalid,
+  select.invalid {
     border-color: var(--error) !important;
     background: #FFF8F8 !important;
   }
+
+  /* Character counter */
+  .char-counter {
+    align-self: flex-end;
+    display: block;
+    text-align: right;
+    font-size: 10.5px;
+    color: var(--text-muted);
+    margin-top: -3px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .char-counter.warning { color: var(--accent2); }
+  .char-counter.limit { color: var(--error); font-weight: 500; }
 
   .field-error {
     font-size: 11px;
@@ -360,19 +375,34 @@
       <div class="one-col">
         <div class="field">
           <label>Your name <span class="required-star">*</span></label>
-          <input type="text" id="RevieweeName" placeholder="Full name">
+          <select id="RevieweeName">
+            <option value="" disabled selected>-- Select --</option>
+            <option value="Muhammad Hassnain">Muhammad Hassnain</option>
+            <option value="Muhammad Bilal">Muhammad Bilal</option>
+            <option value="Muhammad Qasim">Muhammad Qasim</option>
+            <option value="Rameez Manzoor">Rameez Manzoor</option>
+            <option value="Mohsin Arshad">Mohsin Arshad</option>
+            <option value="Hammadullah Abid">Hammadullah Abid</option>
+            <option value="Muhammad Sheryar">Muhammad Sheryar</option>
+            <option value="Sher Islam">Sher Islam</option>
+            <option value="Muhammad Hassan Khalid">Muhammad Hassan Khalid</option>
+            <option value="Arham Saeed">Arham Saeed</option>
+            <option value="Aroob Khalid">Aroob Khalid</option>
+            <option value="Laiba Shaheen">Laiba Shaheen</option>
+            <option value="Nafees Hassan">Nafees Hassan</option>
+          </select>
           <span class="field-error" id="err-RevieweeName">This field is required</span>
         </div>
       </div>
       <div class="two-col">
         <div class="field">
           <label>Role / title <span class="required-star">*</span></label>
-          <input type="text" id="RoleTitle" placeholder="e.g. DevOps Engineer">
+          <input type="text" id="RoleTitle" placeholder="e.g. Data Engineer" maxlength="255">
           <span class="field-error" id="err-RoleTitle">This field is required</span>
         </div>
         <div class="field">
           <label>Review period <span class="required-star">*</span></label>
-          <input type="text" id="ReviewPeriod" placeholder="e.g. Jan – Dec 2026">
+          <input type="text" id="ReviewPeriod" placeholder="e.g. Jan – Dec 2026" value="Jan - June 2026" maxlength="255">
           <span class="field-error" id="err-ReviewPeriod">This field is required</span>
         </div>
       </div>
@@ -385,50 +415,50 @@
     <div class="card-body">
       <div class="field">
         <label>My strengths include <span class="required-star">*</span></label>
-        <textarea id="Strength"></textarea>
+        <textarea id="Strength" maxlength="4000"></textarea>
         <span class="field-error" id="err-Strength">This field is required</span>
       </div>
       <div class="field">
         <label>I can improve in <span class="required-star">*</span></label>
-        <textarea id="Improve"></textarea>
+        <textarea id="Improve" maxlength="4000"></textarea>
         <span class="field-error" id="err-Improve">This field is required</span>
       </div>
       <div class="divider"></div>
       <div class="field">
         <label>Contributions towards Projects <span class="required-star">*</span></label>
         <span class="hint">Key projects you contributed to and the impact you made</span>
-        <textarea id="ContribProjects" placeholder="Describe your contributions to projects..."></textarea>
+        <textarea id="ContribProjects" placeholder="Describe your contributions to projects..." maxlength="4000"></textarea>
         <span class="field-error" id="err-ContribProjects">This field is required</span>
       </div>
       <div class="field">
         <label>Contributions towards Other People's Development <span class="required-star">*</span></label>
         <span class="hint">Mentoring, knowledge sharing, coaching, or supporting colleagues</span>
-        <textarea id="ContribPeople" placeholder="Describe how you supported others' growth..."></textarea>
+        <textarea id="ContribPeople" placeholder="Describe how you supported others' growth..." maxlength="4000"></textarea>
         <span class="field-error" id="err-ContribPeople">This field is required</span>
       </div>
       <div class="field">
         <label>Contributions towards Personal Development <span class="required-star">*</span></label>
         <span class="hint">Skills, certifications, learnings or growth you pursued for yourself</span>
-        <textarea id="ContribPersonal" placeholder="Describe your personal development efforts..."></textarea>
+        <textarea id="ContribPersonal" placeholder="Describe your personal development efforts..." maxlength="4000"></textarea>
         <span class="field-error" id="err-ContribPersonal">This field is required</span>
       </div>
       <div class="divider"></div>
       <div class="field">
         <label>Something I handled really well <span class="required-star">*</span></label>
         <span class="hint">A specific situation, achievement or initiative</span>
-        <textarea id="HandledWell" placeholder="Describe a specific example..."></textarea>
+        <textarea id="HandledWell" placeholder="Describe a specific example..." maxlength="4000"></textarea>
         <span class="field-error" id="err-HandledWell">This field is required</span>
       </div>
       <div class="field">
         <label>A situation I struggled with <span class="required-star">*</span></label>
         <span class="hint">A specific challenge or area of difficulty</span>
-        <textarea id="Struggled" placeholder="Describe a specific example..."></textarea>
+        <textarea id="Struggled" placeholder="Describe a specific example..." maxlength="4000"></textarea>
         <span class="field-error" id="err-Struggled">This field is required</span>
       </div>
       <div class="field">
         <label>My goals for next year <span class="required-star">*</span></label>
         <span class="hint">e.g. attempt a certification, master a new technology</span>
-        <textarea id="NextYearGoals" placeholder="Goals and development areas..."></textarea>
+        <textarea id="NextYearGoals" placeholder="Goals and development areas..." maxlength="4000"></textarea>
         <span class="field-error" id="err-NextYearGoals">This field is required</span>
       </div>
     </div>
@@ -451,7 +481,7 @@
       </p>
       <span class="rating-error" id="err-RatingWorkDelivery">Please select a rating</span>
       <div class="rating-options" data-field="RatingWorkDelivery"></div>
-      <textarea class="rating-comment" id="CommentWorkDelivery" placeholder="Add a comment (required) ..."></textarea>
+      <textarea class="rating-comment" id="CommentWorkDelivery" placeholder="Add a comment (required) ..." maxlength="4000"></textarea>
       <span class="field-error" id="err-CommentWorkDelivery" style="margin-top:5px;">A comment is required</span>
     </div>
 
@@ -467,7 +497,7 @@
       </p>
       <span class="rating-error" id="err-RatingAvailability">Please select a rating</span>
       <div class="rating-options" data-field="RatingAvailability"></div>
-      <textarea class="rating-comment" id="CommentAvailability" placeholder="Add a comment (required) ..."></textarea>
+      <textarea class="rating-comment" id="CommentAvailability" placeholder="Add a comment (required) ..." maxlength="4000"></textarea>
       <span class="field-error" id="err-CommentAvailability" style="margin-top:5px;">A comment is required</span>
     </div>
 
@@ -483,7 +513,7 @@
       </p>
       <span class="rating-error" id="err-RatingComms">Please select a rating</span>
       <div class="rating-options" data-field="RatingComms"></div>
-      <textarea class="rating-comment" id="CommentComms" placeholder="Add a comment (required) ..."></textarea>
+      <textarea class="rating-comment" id="CommentComms" placeholder="Add a comment (required) ..." maxlength="4000"></textarea>
       <span class="field-error" id="err-CommentComms" style="margin-top:5px;">A comment is required</span>
     </div>
 
@@ -496,7 +526,7 @@
       </p>
       <span class="rating-error" id="err-RatingJobKnowledge">Please select a rating</span>
       <div class="rating-options" data-field="RatingJobKnowledge"></div>
-      <textarea class="rating-comment" id="CommentJobKnowledge" placeholder="Add a comment (required) ..."></textarea>
+      <textarea class="rating-comment" id="CommentJobKnowledge" placeholder="Add a comment (required) ..." maxlength="4000"></textarea>
       <span class="field-error" id="err-CommentJobKnowledge" style="margin-top:5px;">A comment is required</span>
     </div>
 
@@ -509,7 +539,7 @@
       </p>
       <span class="rating-error" id="err-RatingQuality">Please select a rating</span>
       <div class="rating-options" data-field="RatingQuality"></div>
-      <textarea class="rating-comment" id="CommentQuality" placeholder="Add a comment (required) ..."></textarea>
+      <textarea class="rating-comment" id="CommentQuality" placeholder="Add a comment (required) ..." maxlength="4000"></textarea>
       <span class="field-error" id="err-CommentQuality" style="margin-top:5px;">A comment is required</span>
     </div>
   </div>
@@ -520,7 +550,7 @@
     <div class="card-body">
       <div class="field">
         <label>Any other feedback <span class="required-star">*</span></label>
-        <textarea id="AdditionalComments" style="min-height:96px;" placeholder="Anything not covered above..."></textarea>
+        <textarea id="AdditionalComments" style="min-height:96px;" placeholder="Anything not covered above..." maxlength="4000"></textarea>
         <span class="field-error" id="err-AdditionalComments">This field is required</span>
       </div>
     </div>
@@ -561,6 +591,27 @@
     });
   });
 
+  // Character counters for fields with a maxlength (prevents backend overflow)
+  document.querySelectorAll("input[maxlength], textarea[maxlength]").forEach(el => {
+    if (el.id === "RoleTitle" || el.id === "ReviewPeriod") return;
+
+    const max = parseInt(el.getAttribute("maxlength"), 10);
+    const counter = document.createElement("span");
+    counter.className = "char-counter";
+    counter.id = "count-" + el.id;
+
+    const updateCounter = () => {
+      const len = el.value.length;
+      counter.textContent = len + " / " + max;
+      counter.classList.toggle("limit", len >= max);
+      counter.classList.toggle("warning", !((len >= max)) && len >= max * 0.9);
+    };
+
+    el.insertAdjacentElement("afterend", counter);
+    updateCounter();
+    el.addEventListener("input", updateCounter);
+  });
+
   // Clear error helpers
   function clearError(id) {
     const errEl = document.getElementById("err-" + id);
@@ -572,6 +623,17 @@
   // Live clear on input
   document.querySelectorAll("input[type='text'], textarea").forEach(el => {
     el.addEventListener("input", () => {
+      if (el.value.trim()) {
+        el.classList.remove("invalid");
+        const errEl = document.getElementById("err-" + el.id);
+        if (errEl) errEl.classList.remove("visible");
+      }
+    });
+  });
+
+  // Live clear on select change
+  document.querySelectorAll("select").forEach(el => {
+    el.addEventListener("change", () => {
       if (el.value.trim()) {
         el.classList.remove("invalid");
         const errEl = document.getElementById("err-" + el.id);
